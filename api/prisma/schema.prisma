@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  password_hash String
+  created_at    DateTime  @default(now())
+
+  profile       Profile?
+  expenses      Expense[]
+
+  @@map("users")
+}
+
+model Profile {
+  id              String  @id @default(uuid())
+  user_id         String  @unique
+  monthly_income  Decimal @default(0.00) @db.Decimal(10, 2)
+  quiz_result_key String?
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("profiles")
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  user_id     String
+  description String
+  amount      Decimal  @db.Decimal(10, 2)
+  category    String
+  date        DateTime @default(now())
+
+  user User @relation(fields: [user_id], references: [id])
+
+  @@map("expenses")
+}
+
+model Track {
+  id          String    @id @default(uuid())
+  slug        String    @unique
+  title       String
+  description String?
+  contents    Content[]
+
+  @@map("tracks")
+}
+
+model Content {
+  id       String @id @default(uuid())
+  track_id String
+  title    String
+  body     String @db.Text
+  order    Int    @default(0)
+
+  track Track @relation(fields: [track_id], references: [id])
+
+  @@map("contents")
+}

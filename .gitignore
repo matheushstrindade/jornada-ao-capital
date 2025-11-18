@@ -1,0 +1,28 @@
+# Dependências do Node
+node_modules/
+npm-debug.log
+
+# Variáveis de Ambiente (SEGURANÇA MÁXIMA!)
+.env
+*.env
+
+# Build e Distribuição
+dist/
+build/
+
+# Configurações da IDE (WebStorm/VS Code)
+.idea/
+.vscode/
+*.suo
+*.ntvs
+*.njsproj
+*.sln
+*.sw?
+
+# Logs e arquivos do sistema
+*.log
+.DS_Store
+Thumbs.db
+
+# Docker volumes (se tiver criado localmente)
+.docker/
